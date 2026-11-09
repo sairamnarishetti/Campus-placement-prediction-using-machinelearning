@@ -2,54 +2,913 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Placement Prediction</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #e8f5f4;
-            text-align: center;
-            padding: 60px 20px;
-        }
-        .container {
-            max-width: 750px;
-            margin: auto;
-            background: white;
-            padding: 35px;
-            border-radius: 15px;
-        }
-        h1 { color: #087f78; }
-        p { line-height: 1.7; color: #444; }
-        a {
-            display: inline-block;
-            background: #087f78;
-            color: white;
-            padding: 12px 22px;
-            text-decoration: none;
-            border-radius: 6px;
-            margin: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CampusPredict | Intelligent Placement Analytics</title>
+
+<meta name="description" content="CampusPredict - Machine Learning Based Campus Placement Prediction and Analysis using Logistic Regression, SVM and Decision Tree.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #080d19;
+    --panel: #111a2b;
+    --text: #f4f7ff;
+    --muted: #9ba9c1;
+    --cyan: #48e3d1;
+    --purple: #a78bfa;
+    --border: rgba(255,255,255,.09);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    width: min(1160px, 90%);
+    margin: auto;
+}
+
+/* NAVBAR */
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,13,25,.88);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+}
+
+.navbar {
+    height: 76px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.logo span {
+    color: var(--cyan);
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--muted);
+    font-size: 14px;
+    transition: .3s;
+}
+
+.nav-links a:hover {
+    color: var(--cyan);
+}
+
+.nav-button {
+    padding: 11px 20px;
+    border-radius: 8px;
+    color: #061419 !important;
+    background: var(--cyan);
+    font-weight: 700;
+}
+
+/* HERO */
+
+.hero {
+    min-height: 670px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 550px;
+    height: 550px;
+    background: rgba(72,227,209,.12);
+    filter: blur(120px);
+    right: -150px;
+    top: 40px;
+    border-radius: 50%;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 50px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.tag {
+    display: inline-block;
+    padding: 9px 15px;
+    border: 1px solid rgba(72,227,209,.35);
+    border-radius: 30px;
+    color: var(--cyan);
+    background: rgba(72,227,209,.07);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(42px, 5.4vw, 69px);
+    line-height: 1.08;
+    letter-spacing: -2px;
+    margin-bottom: 25px;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #48e3d1, #a78bfa);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.hero-description {
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.9;
+    max-width: 590px;
+    margin-bottom: 32px;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 24px;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: .3s;
+}
+
+.btn-primary {
+    background: var(--cyan);
+    color: #061419;
+}
+
+.btn-secondary {
+    border: 1px solid var(--border);
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(72,227,209,.17);
+}
+
+/* HERO VISUAL */
+
+.visual-card {
+    padding: 28px;
+    border-radius: 20px;
+    background: linear-gradient(145deg,#17243a,#101827);
+    border: 1px solid var(--border);
+    box-shadow: 0 30px 80px rgba(0,0,0,.3);
+}
+
+.visual-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 35px;
+}
+
+.status {
+    color: var(--cyan);
+    font-size: 12px;
+}
+
+.visual-card h3 {
+    font-family: 'Space Grotesk';
+    margin-bottom: 8px;
+}
+
+.visual-card p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.model-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 19px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.model-item:last-child {
+    border-bottom: none;
+}
+
+.model-name {
+    font-weight: 600;
+}
+
+.model-type {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.model-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(72,227,209,.1);
+    color: var(--cyan);
+    font-size: 20px;
+}
+
+/* COMMON SECTIONS */
+
+section {
+    padding: 100px 0;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.section-heading h2 {
+    font-family: 'Space Grotesk';
+    font-size: clamp(30px,4vw,43px);
+    margin-bottom: 14px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    max-width: 650px;
+    margin: auto;
+    line-height: 1.8;
+}
+
+.section-label {
+    color: var(--cyan);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+    display: block;
+}
+
+/* OVERVIEW */
+
+.overview {
+    background: #0c1423;
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 22px;
+}
+
+.info-card {
+    padding: 30px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: var(--panel);
+    transition: .3s;
+}
+
+.info-card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(72,227,209,.5);
+}
+
+.info-icon {
+    font-size: 30px;
+    margin-bottom: 22px;
+}
+
+.info-card h3 {
+    font-family: 'Space Grotesk';
+    margin-bottom: 12px;
+}
+
+.info-card p {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+/* ALGORITHMS */
+
+.algorithm-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 22px;
+}
+
+.algorithm-card {
+    background: linear-gradient(145deg,#151f33,#0e1727);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 17px;
+}
+
+.algorithm-number {
+    color: var(--cyan);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.algorithm-card h3 {
+    font-family: 'Space Grotesk';
+    margin: 22px 0 12px;
+    font-size: 21px;
+}
+
+.algorithm-card p {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+/* WORKFLOW */
+
+.workflow {
+    background: #0c1423;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+}
+
+.step {
+    padding: 25px;
+    border-left: 2px solid var(--cyan);
+    background: var(--panel);
+    border-radius: 8px;
+}
+
+.step span {
+    color: var(--cyan);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.step h3 {
+    margin: 15px 0 10px;
+}
+
+.step p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* DATASET */
+
+.dataset-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    max-width: 850px;
+    margin: auto;
+}
+
+.feature {
+    padding: 13px 20px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 8px;
+    font-size: 13px;
+    color: #c7d3e7;
+}
+
+.feature:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+}
+
+/* TECH STACK */
+
+.tech-section {
+    background: #0c1423;
+}
+
+.tech-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.tech {
+    padding: 18px 28px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.tech:hover {
+    color: var(--cyan);
+    transform: translateY(-5px);
+}
+
+/* CTA */
+
+.cta {
+    padding: 75px 35px;
+    text-align: center;
+    background: linear-gradient(120deg,#123b43,#25214a);
+    border: 1px solid rgba(72,227,209,.2);
+    border-radius: 22px;
+}
+
+.cta h2 {
+    font-family: 'Space Grotesk';
+    font-size: clamp(28px,4vw,42px);
+    margin-bottom: 18px;
+}
+
+.cta p {
+    color: #c2d1df;
+    line-height: 1.8;
+    margin-bottom: 28px;
+}
+
+/* FOOTER */
+
+footer {
+    padding: 35px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 90px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+footer p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+footer a {
+    color: var(--cyan);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:850px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+    }
+
+    .overview-grid,
+    .algorithm-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .steps {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media(max-width:600px) {
+    .nav-links {
+        gap: 12px;
+    }
+
+    .nav-links a {
+        font-size: 11px;
+    }
+
+    .nav-button {
+        display: none;
+    }
+
+    .overview-grid,
+    .algorithm-grid,
+    .steps {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 70px 0;
+    }
+
+    section {
+        padding: 70px 0;
+    }
+
+    .visual-card {
+        padding: 20px;
+    }
+
+    .cta {
+        padding: 50px 20px;
+    }
+}
+
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Campus Placement Prediction</h1>
-        <h3>Machine Learning Project</h3>
 
-        <p>
-            This project predicts student placement outcomes
-            using machine learning algorithms.
-        </p>
+<!-- NAVIGATION -->
 
-        <p>Algorithms used:</p>
-        <p>
-            Logistic Regression | SVM | Decision Tree
-        </p>
+<nav>
+<div class="container navbar">
 
-        <a href="https://github.com/sairamnarishetti/Campus-placement-prediction-using-machinelearning">
-            View Source Code
-        </a>
-    </div>
+<a href="#" class="logo">Campus<span>Predict.</span></a>
+
+<div class="nav-links">
+<a href="#overview">Overview</a>
+<a href="#algorithms">Algorithms</a>
+<a href="#workflow">Workflow</a>
+<a href="#technology">Technology</a>
+<a class="nav-button" href="#contact">Explore Project</a>
+</div>
+
+</div>
+</nav>
+
+<!-- HERO -->
+
+<header class="hero">
+<div class="container hero-content">
+
+<div>
+
+<span class="tag">MACHINE LEARNING PROJECT · 2026</span>
+
+<h1>
+Predicting Potential.<br>
+Understanding <span class="gradient-text">Placements.</span>
+</h1>
+
+<p class="hero-description">
+An intelligent Campus Placement Prediction and Analysis
+system that applies machine learning algorithms to student
+academic and employability data to predict placement outcomes.
+</p>
+
+<div class="buttons">
+
+<a class="btn btn-primary"
+href="https://github.com/sairamnarishetti/Campus-placement-prediction-using-machinelearning"
+target="_blank">
+Explore Source Code ↗
+</a>
+
+<a class="btn btn-secondary" href="#overview">
+Discover Project ↓
+</a>
+
+</div>
+
+</div>
+
+<div class="visual-card">
+
+<div class="visual-top">
+<h3>ML Model Overview</h3>
+<span class="status">● Model Suite</span>
+</div>
+
+<p>Machine learning algorithms implemented in this project</p>
+
+<div class="model-item">
+<div>
+<div class="model-name">Logistic Regression</div>
+<div class="model-type">Classification Algorithm</div>
+</div>
+<div class="model-icon">↗</div>
+</div>
+
+<div class="model-item">
+<div>
+<div class="model-name">Support Vector Machine</div>
+<div class="model-type">SVM Classification</div>
+</div>
+<div class="model-icon">◇</div>
+</div>
+
+<div class="model-item">
+<div>
+<div class="model-name">Decision Tree</div>
+<div class="model-type">Tree-based Classification</div>
+</div>
+<div class="model-icon">⌘</div>
+</div>
+
+</div>
+</div>
+</header>
+
+<!-- OVERVIEW -->
+
+<section class="overview" id="overview">
+
+<div class="container">
+
+<div class="section-heading">
+<span class="section-label">PROJECT OVERVIEW</span>
+<h2>Turning Student Data Into Insights</h2>
+<p>
+The project explores how academic performance,
+educational background and employability indicators
+can be used for placement outcome prediction.
+</p>
+</div>
+
+<div class="overview-grid">
+
+<div class="info-card">
+<div class="info-icon">🎯</div>
+<h3>Objective</h3>
+<p>
+Build a machine learning classification system
+to predict student placement status based on
+available academic and employment-related attributes.
+</p>
+</div>
+
+<div class="info-card">
+<div class="info-icon">📊</div>
+<h3>Data Analysis</h3>
+<p>
+Process structured student data, prepare input
+features and examine relevant academic and
+employability indicators.
+</p>
+</div>
+
+<div class="info-card">
+<div class="info-icon">🤖</div>
+<h3>Prediction</h3>
+<p>
+Train and evaluate multiple classification
+algorithms and generate placement predictions
+from compatible input records.
+</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ALGORITHMS -->
+
+<section id="algorithms">
+
+<div class="container">
+
+<div class="section-heading">
+<span class="section-label">MACHINE LEARNING</span>
+<h2>Algorithms Behind The Prediction</h2>
+<p>
+Three classification techniques are implemented
+to explore different approaches to placement prediction.
+</p>
+</div>
+
+<div class="algorithm-grid">
+
+<div class="algorithm-card">
+<span class="algorithm-number">01 / CLASSIFICATION</span>
+<h3>Logistic Regression</h3>
+<p>
+A supervised learning algorithm used to estimate
+the probability of a student belonging to a
+placement outcome category.
+</p>
+</div>
+
+<div class="algorithm-card">
+<span class="algorithm-number">02 / CLASSIFICATION</span>
+<h3>Support Vector Machine</h3>
+<p>
+A supervised learning approach that identifies
+a decision boundary to separate different
+placement outcome classes.
+</p>
+</div>
+
+<div class="algorithm-card">
+<span class="algorithm-number">03 / CLASSIFICATION</span>
+<h3>Decision Tree</h3>
+<p>
+A tree-based algorithm that makes predictions
+using a sequence of feature-based decision rules.
+</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- WORKFLOW -->
+
+<section class="workflow" id="workflow">
+
+<div class="container">
+
+<div class="section-heading">
+<span class="section-label">HOW IT WORKS</span>
+<h2>From Dataset To Prediction</h2>
+<p>
+A structured machine learning workflow
+for placement outcome classification.
+</p>
+</div>
+
+<div class="steps">
+
+<div class="step">
+<span>STEP 01</span>
+<h3>Data Upload</h3>
+<p>Load the student placement dataset in CSV format.</p>
+</div>
+
+<div class="step">
+<span>STEP 02</span>
+<h3>Preprocessing</h3>
+<p>Separate input features and target, split the dataset and apply standard scaling.</p>
+</div>
+
+<div class="step">
+<span>STEP 03</span>
+<h3>Model Training</h3>
+<p>Train Logistic Regression, SVM and Decision Tree classifiers.</p>
+</div>
+
+<div class="step">
+<span>STEP 04</span>
+<h3>Prediction</h3>
+<p>Use a compatible test dataset to predict placement outcomes.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- DATASET -->
+
+<section id="dataset">
+
+<div class="container">
+
+<div class="section-heading">
+<span class="section-label">INPUT FEATURES</span>
+<h2>Understanding The Dataset</h2>
+<p>
+The model uses academic, educational and
+employability-related attributes as input features.
+</p>
+</div>
+
+<div class="dataset-box">
+
+<span class="feature">Gender</span>
+<span class="feature">SSC Percentage</span>
+<span class="feature">SSC Board</span>
+<span class="feature">HSC Percentage</span>
+<span class="feature">HSC Board</span>
+<span class="feature">HSC Stream</span>
+<span class="feature">Degree Percentage</span>
+<span class="feature">Degree Type</span>
+<span class="feature">Work Experience</span>
+<span class="feature">Employability Test</span>
+<span class="feature">Specialisation</span>
+<span class="feature">MBA Percentage</span>
+
+</div>
+</div>
+</section>
+
+<!-- TECHNOLOGY -->
+
+<section class="tech-section" id="technology">
+
+<div class="container">
+
+<div class="section-heading">
+<span class="section-label">TECHNOLOGY STACK</span>
+<h2>Tools & Technologies</h2>
+<p>
+Technologies used to develop the machine learning
+application and perform data processing.
+</p>
+</div>
+
+<div class="tech-grid">
+<div class="tech">Python</div>
+<div class="tech">Pandas</div>
+<div class="tech">NumPy</div>
+<div class="tech">Scikit-learn</div>
+<div class="tech">Tkinter</div>
+<div class="tech">Machine Learning</div>
+<div class="tech">CSV Dataset</div>
+<div class="tech">Git & GitHub</div>
+</div>
+
+</div>
+</section>
+
+<!-- CTA -->
+
+<section id="contact">
+<div class="container">
+
+<div class="cta">
+
+<span class="section-label">EXPLORE THE PROJECT</span>
+
+<h2>Interested in the implementation?</h2>
+
+<p>
+Explore the source code, understand the machine
+learning workflow and discover how the placement
+prediction system is implemented.
+</p>
+
+<a class="btn btn-primary"
+href="https://github.com/sairamnarishetti/Campus-placement-prediction-using-machinelearning"
+target="_blank">
+View Project on GitHub ↗
+</a>
+
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+<div class="container footer-content">
+
+<div class="logo">Campus<span>Predict.</span></div>
+
+<p>Machine Learning · Campus Placement Prediction</p>
+
+<p>Designed & Developed as an Academic Project · 2026</p>
+
+</div>
+</footer>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function(event) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            event.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+});
+</script>
+
 </body>
 </html>
